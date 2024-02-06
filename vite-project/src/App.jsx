@@ -1,4 +1,5 @@
 
+import { useRef, useState } from 'react';
 import ContactUs from './component/ContactUs';
 import Footer from './component/footer';
 import Header from './component/header';
@@ -42,8 +43,56 @@ const App = () => {
     alert("Form Submitted Successfully")
 
   }
-  
-  
+
+  let Headline2=useRef();
+
+  const clickechange=()=>{
+    Headline2.current.innerText="Kaaj hoise";
+
+  }
+  let myimage=useRef();
+  const imgchange=()=>{
+    myimage.current.src='https://placehold.co/600x400?text=Hello+World'
+    myimage.current.setAttribute('Height','200px')
+    myimage.current.setAttribute('Width','300px')
+  }
+
+  let Firstname, Middlename, Lastname =useRef();
+  const Fullname=()=>{
+    let fname=Firstname.value;
+    let mname=Middlename.value;
+    let lname=Lastname.value;
+    alert(fname+" "+mname+" "+lname)
+  }
+
+  let Headline1=useRef();
+  const clickeCSSchange=()=>{
+    Headline1.current.classList.remove('text-success')
+    Headline1.current.classList.add('text-danger')
+  }
+
+  let number=useRef(0);
+
+  const numupdate=()=>{
+    number.current++ ;
+    console.log(number.current);
+  }
+
+  let ApiData=useRef(0);
+  let myptag=useRef();
+
+  const fetchdata=async()=>{
+    const response=await fetch("https://dummyjson.com/products/1")
+    ApiData.current=await response.json()
+    console.log(ApiData.current)
+
+  }
+
+  const showdata=()=>{
+    myptag.current.innerText=JSON.stringify(ApiData.current)
+  }
+
+  const [Numberr,setNumber]=useState(0)
   return (
     <div>
       <Header/>
@@ -95,6 +144,45 @@ const App = () => {
         <button>Submit korbi ki nah?</button>
 
       </form>
+
+
+
+
+      <h2 ref={Headline2}></h2>
+      <button onClick={clickechange}>Dabao</button>
+
+      <img ref={myimage} src='https://placehold.co/600x400'/>
+      <button onClick={imgchange}>Image Change</button><br/>
+
+
+      <input ref={(a)=>Firstname=a} placeholder='First Name'/><br/>
+      <input ref={(b)=>Middlename=b} placeholder='Middle Name'/><br/>
+      <input ref={(c)=>Lastname=c} placeholder='Last Name'/><br/>
+      <button onClick={Fullname}>FullName</button>
+
+
+      {/* bootstrap */}
+
+      <h1 className='text-success'  ref={Headline1}>Color change hobe</h1>
+      <button onClick={clickeCSSchange}>CSS change</button><br/>
+
+      {/* number update without rendering */}
+      <button onClick={numupdate}>NumberUpdate</button>
+
+      {/* api */}
+
+      <p ref={myptag}></p>
+      <button onClick={fetchdata}>Call API</button>
+      <button onClick={showdata}>Show API</button> <br/>
+
+      {/* useState */}
+
+      <h4>Number update hobe with each click using state: {Numberr}</h4>
+      <button onClick={()=>setNumber(Numberr+1)}>0,1,2,3,4,---</button>
+
+
+
+      
 
       
 
